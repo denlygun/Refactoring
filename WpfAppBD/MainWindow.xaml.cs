@@ -91,25 +91,22 @@ namespace WpfAppBD
         private void Upd_Table(object sender, RoutedEventArgs e)
         {
             TabItem item = (TabItem)tabs.SelectedItem;
-            switch (item.Header.ToString())
+
+            var updateActions = new Dictionary<string, Action>()
             {
-                case "Cars":
-                    Upd_cars_Table(); 
-                    break;
-                case "Clients":
-                    Upd_Clients_Table();
-                    break;
-                case "Producer":
-                    Upd_Producers_Table();
-                    break;
-                case "Sales":
-                    Upd_sales_Table();
-                    break;
-                case "Service":
-                    Upd_Services_Table();
-                    break;
+                { "Cars", Upd_cars_Table },
+                { "Clients", Upd_Clients_Table },
+                { "Producer", Upd_Producers_Table },
+                { "Sales", Upd_sales_Table },
+                { "Service", Upd_Services_Table }
+            };
+
+            if (updateActions.ContainsKey(item.Header.ToString()))
+            {
+                updateActions[item.Header.ToString()]();
             }
         }
+
 
         private void Add_Record(object sender, RoutedEventArgs e)
         {
