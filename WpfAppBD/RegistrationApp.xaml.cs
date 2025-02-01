@@ -31,19 +31,20 @@ namespace WpfAppBD
             string lastName = txtLastName.Text;
             string phoneNumber = txtPhoneNumber.Text;
             string email = txtEmail.Text;
-            string adress = txtAdress.Text;
+            string address = txtAdress.Text;
             string password = txtPassword.Password;
 
-            if (string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName) ||
-                string.IsNullOrEmpty(phoneNumber) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(adress))
+            // Об'єднана перевірка на порожнечу всіх полів
+            var fields = new List<string> { firstName, lastName, phoneNumber, email, address, password };
+            if (fields.Any(string.IsNullOrEmpty))
             {
                 MessageBox.Show("Будь ласка, заповніть всі поля.");
                 return;
             }
 
-            using (sqlConnection)
+            try
             {
-                try
+                using (sqlConnection)
                 {
                     sqlConnection.Open();
 
@@ -58,12 +59,12 @@ namespace WpfAppBD
 
                     using (SqlCommand command = new SqlCommand(query, sqlConnection))
                     {
-                        command.Parameters.AddWithValue("@Id", newId);  
+                        command.Parameters.AddWithValue("@Id", newId);
                         command.Parameters.AddWithValue("@FirstName", firstName);
                         command.Parameters.AddWithValue("@LastName", lastName);
                         command.Parameters.AddWithValue("@PhoneNumber", phoneNumber);
                         command.Parameters.AddWithValue("@Email", email);
-                        command.Parameters.AddWithValue("@Address", adress);
+                        command.Parameters.AddWithValue("@Address", address);
                         command.Parameters.AddWithValue("@Password", password);
 
                         int result = command.ExecuteNonQuery();
@@ -72,8 +73,8 @@ namespace WpfAppBD
                         {
                             MessageBox.Show("Реєстрація успішна!");
                             AuthorizationApp authorizationApp = new AuthorizationApp();
-                            authorizationApp.Show();  
-                            this.Close();  
+                            authorizationApp.Show();
+                            this.Close();
                         }
                         else
                         {
@@ -81,10 +82,10 @@ namespace WpfAppBD
                         }
                     }
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Помилка: " + ex.Message);
-                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Помилка: " + ex.Message);
             }
         }
 
