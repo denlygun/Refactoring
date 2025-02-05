@@ -24,7 +24,6 @@ namespace WpfAppBD
             InitializeComponent();
             sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["Connect1"].ConnectionString);
         }
-
         private void btnRegister_Click(object sender, RoutedEventArgs e)
         {
             string firstName = txtFirstName.Text;
@@ -81,13 +80,16 @@ namespace WpfAppBD
                         }
                     }
                 }
+                catch (SqlException ex)
+                {
+                    MessageBox.Show($"Помилка бази даних: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
                 catch (Exception ex)
                 {
                     MessageBox.Show("Помилка: " + ex.Message);
                 }
             }
         }
-
         private void NavigateToAuthorization(object sender, RoutedEventArgs e)
         {
             AuthorizationApp authorizationApp = new AuthorizationApp();
