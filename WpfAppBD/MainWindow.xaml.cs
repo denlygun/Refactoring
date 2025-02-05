@@ -27,7 +27,6 @@ namespace WpfAppBD
             InitializeComponent();
             sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["Connect1"].ConnectionString);
         }
-
         private void Del_Record(object sender, RoutedEventArgs e)
         {
             TabItem item = (TabItem)tabs.SelectedItem;
@@ -62,7 +61,6 @@ namespace WpfAppBD
                 }
             }
         }
-
         private void Upd_Record(object sender, RoutedEventArgs e)
         {
             TabItem item = (TabItem)tabs.SelectedItem;
@@ -87,7 +85,6 @@ namespace WpfAppBD
                 }
             }
         }
-
         private void Upd_Table(object sender, RoutedEventArgs e)
         {
             TabItem item = (TabItem)tabs.SelectedItem;
@@ -110,7 +107,6 @@ namespace WpfAppBD
                     break;
             }
         }
-
         private void Add_Record(object sender, RoutedEventArgs e)
         {
             TabItem item = (TabItem)tabs.SelectedItem;
@@ -123,14 +119,12 @@ namespace WpfAppBD
                 case "Service": Add_Service(); break;
             }
         }
-
         private void Nav_Last(object sender, RoutedEventArgs e)
         {
             TabItem item = (TabItem)tabs.SelectedItem;
             DataGrid dataGrid = (DataGrid)item.Content;
             dataGrid.SelectedIndex = dataGrid.Items.Count - 2;
         }
-
         private void Nav_Prev(object sender, RoutedEventArgs e)
         {
             TabItem item = (TabItem)tabs.SelectedItem;
@@ -157,14 +151,12 @@ namespace WpfAppBD
                 dataGrid.SelectedIndex++;
             }
         }
-
         private void Nav_First(object sender, RoutedEventArgs e)
         {
             TabItem item = (TabItem)tabs.SelectedItem;
             DataGrid dataGrid = (DataGrid)item.Content;
             dataGrid.SelectedIndex = 0;
         }
-
         private void TreeViewItem_Expand(object sender, RoutedEventArgs e)
         {
             SqlCommand sqlCommand = new SqlCommand();
@@ -189,7 +181,6 @@ namespace WpfAppBD
             }
             sqlConnection.Close();
         }
-
         private void tabs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
@@ -238,12 +229,30 @@ namespace WpfAppBD
             {
                 tabs.Items.Remove(tabItem);
             }
-        }      
+        }
+        private void AddRecord(string tableName, List<string> columns, List<string> values)
+        {
+            try
+            {
+                sqlConnection.Open();
+                string query = $"INSERT INTO {tableName} ({string.Join(", ", columns)}) VALUES ({string.Join(", ", values)})";
+                SqlCommand command = new SqlCommand(query, sqlConnection);
+                command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Помилка додавання запису: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+        }
         private void Add_car()
         {
             Window1 datawindow = new Window1();
             List<string> data = new List<string>
-        {
+            {
                 "@model",
                 "@year_of_graduation",
                 "@body_type",
@@ -259,29 +268,22 @@ namespace WpfAppBD
             datawindow.ShowDialog();
             List<string> inputdata = datawindow.dataCollect;
 
-            if (inputdata.Count == 9) 
+            if (inputdata.Count == 9)
             {
-                sqlConnection.Open();
+                List<string> columns = new List<string>
+                {
+                    "model",
+                    "year_of_graduation",
+                    "body_type",
+                    "color",
+                    "engine",
+                    "price",
+                    "availability_for_order",
+                    "status",
+                    "producer_id"
+                };
 
-                SqlCommand getMaxIdCommand = new SqlCommand("SELECT ISNULL(MAX(car_id), 0) + 1 FROM Cars", sqlConnection);
-                int newCarId = (int)getMaxIdCommand.ExecuteScalar();
-
-                SqlCommand s = new SqlCommand("insert_car", sqlConnection);
-                s.CommandType = CommandType.StoredProcedure;
-
-                s.Parameters.Add("@model", SqlDbType.NVarChar, 50).Value = inputdata[0] ?? "";
-                s.Parameters.Add("@year_of_graduation", SqlDbType.Int).Value = string.IsNullOrEmpty(inputdata[1]) ? (object)DBNull.Value : int.Parse(inputdata[1]);
-                s.Parameters.Add("@body_type", SqlDbType.NVarChar, 50).Value = inputdata[2] ?? "";
-                s.Parameters.Add("@color", SqlDbType.NVarChar, 30).Value = inputdata[3] ?? "";
-                s.Parameters.Add("@engine", SqlDbType.NVarChar, 50).Value = inputdata[4] ?? "";
-                s.Parameters.Add("@price", SqlDbType.Decimal).Value = string.IsNullOrEmpty(inputdata[5]) ? (object)DBNull.Value : decimal.Parse(inputdata[5]);
-                s.Parameters.Add("@availability_for_order", SqlDbType.Bit).Value = string.IsNullOrEmpty(inputdata[6]) ? (object)DBNull.Value : ParseToBool(inputdata[6]);
-                s.Parameters.Add("@status", SqlDbType.Bit).Value = string.IsNullOrEmpty(inputdata[7]) ? (object)DBNull.Value : ParseToBool(inputdata[7]);
-                s.Parameters.Add("@producer_id", SqlDbType.Int).Value = string.IsNullOrEmpty(inputdata[8]) ? (object)DBNull.Value : int.Parse(inputdata[8]);
-                s.Parameters.Add("@car_id", SqlDbType.Int).Value = newCarId;
-
-                s.ExecuteNonQuery();
-                sqlConnection.Close();
+                AddRecord("Cars", columns, inputdata);
                 Upd_cars_Table();
             }
         }
@@ -426,8 +428,6 @@ namespace WpfAppBD
             }
             Upd_cars_Table();
         }
-
-
         private void Add_Client()
         {
             Window1 datawindow = new Window1();
@@ -447,28 +447,20 @@ namespace WpfAppBD
 
             if (inputdata.Count == 6)
             {
-                sqlConnection.Open();
+                List<string> columns = new List<string>
+                {
+                    "name",
+                    "surname",
+                    "phone",
+                    "email",
+                    "address",
+                    "Password"
+                };
 
-                SqlCommand getMaxIdCommand = new SqlCommand("SELECT ISNULL(MAX(client_id), 0) + 1 FROM Clients", sqlConnection);
-                int newClientId = (int)getMaxIdCommand.ExecuteScalar();
-
-                SqlCommand s = new SqlCommand("insert_client", sqlConnection);
-                s.CommandType = CommandType.StoredProcedure;
-
-                s.Parameters.Add("@name", SqlDbType.NVarChar, 50).Value = inputdata[0] ?? "";
-                s.Parameters.Add("@surname", SqlDbType.NVarChar, 50).Value = inputdata[1] ?? "";
-                s.Parameters.Add("@phone", SqlDbType.NVarChar, 20).Value = inputdata[2] ?? "";
-                s.Parameters.Add("@email", SqlDbType.NVarChar, 100).Value = inputdata[3] ?? "";
-                s.Parameters.Add("@address", SqlDbType.NVarChar, 255).Value = inputdata[4] ?? "";
-                s.Parameters.Add("@Password", SqlDbType.NVarChar, 255).Value = inputdata[5] ?? "";
-                s.Parameters.Add("@client_id", SqlDbType.Int).Value = newClientId;
-
-                s.ExecuteNonQuery();
-                sqlConnection.Close();
+                AddRecord("Clients", columns, inputdata);
                 Upd_Clients_Table();
             }
         }
-
         private void Upd_Client(int clientId)
         {
             sqlConnection.Open();
@@ -527,7 +519,6 @@ namespace WpfAppBD
             }
             Upd_Clients_Table();
         }
-
         private void Upd_Clients_Table()
         {
             SqlCommand sqlCommand = new SqlCommand("SELECT * FROM Clients", sqlConnection);
@@ -567,7 +558,6 @@ namespace WpfAppBD
             });
             sqlConnection.Close();
         }
-
         private void Delete_Client(int clientId)
         {
             try
@@ -590,8 +580,6 @@ namespace WpfAppBD
             }
             Upd_Clients_Table();
         }
-
-
         private void Add_Producer()
         {
             Window1 datawindow = new Window1();
@@ -610,27 +598,19 @@ namespace WpfAppBD
 
             if (inputdata.Count == 5)
             {
-                sqlConnection.Open();
+                List<string> columns = new List<string>
+                {
+                    "name",
+                    "contact_person",
+                    "phone",
+                    "email",
+                    "address"
+                };
 
-                SqlCommand getMaxIdCommand = new SqlCommand("SELECT ISNULL(MAX(producer_id), 0) + 1 FROM Producer", sqlConnection);
-                int newProducerId = (int)getMaxIdCommand.ExecuteScalar();
-
-                SqlCommand s = new SqlCommand("insert_producer", sqlConnection);
-                s.CommandType = CommandType.StoredProcedure;
-
-                s.Parameters.Add("@name", SqlDbType.NVarChar, 100).Value = inputdata[0] ?? "";
-                s.Parameters.Add("@contact_person", SqlDbType.NVarChar, 50).Value = inputdata[1] ?? "";
-                s.Parameters.Add("@phone", SqlDbType.NVarChar, 20).Value = inputdata[2] ?? "";
-                s.Parameters.Add("@email", SqlDbType.NVarChar, 100).Value = inputdata[3] ?? "";
-                s.Parameters.Add("@address", SqlDbType.NVarChar, 255).Value = inputdata[4] ?? "";
-                s.Parameters.Add("@producer_id", SqlDbType.Int).Value = newProducerId;
-
-                s.ExecuteNonQuery();
-                sqlConnection.Close();
+                AddRecord("Producer", columns, inputdata);
                 Upd_Producers_Table();
             }
         }
-
         private void Upd_Producer(int producerId)
         {
             sqlConnection.Open();
@@ -687,7 +667,6 @@ namespace WpfAppBD
             }
             Upd_Producers_Table();
         }
-
         private void Upd_Producers_Table()
         {
             SqlCommand sqlCommand = new SqlCommand("SELECT * FROM Producer", sqlConnection);
@@ -727,7 +706,6 @@ namespace WpfAppBD
             });
             sqlConnection.Close();
         }
-
         private void Delete_Producer(int producerId)
         {
             try
@@ -750,8 +728,6 @@ namespace WpfAppBD
             }
             Upd_Producers_Table();
         }
-        
-        
         private void Add_sale()
         {
             Window1 datawindow = new Window1();
@@ -770,23 +746,16 @@ namespace WpfAppBD
 
             if (inputdata.Count == 5)
             {
-                sqlConnection.Open();
+                List<string> columns = new List<string>
+                {
+                    "date_of_sale",
+                    "sum",
+                    "payment_method",
+                    "car_id",
+                    "client_id"
+                };
 
-                SqlCommand getMaxIdCommand = new SqlCommand("SELECT ISNULL(MAX(sale_id), 0) + 1 FROM Sales", sqlConnection);
-                int newSaleId = (int)getMaxIdCommand.ExecuteScalar();
-
-                SqlCommand s = new SqlCommand("insert_sale", sqlConnection);
-                s.CommandType = CommandType.StoredProcedure;
-
-                s.Parameters.Add("@sale_id", SqlDbType.Int).Value = newSaleId;
-                s.Parameters.Add("@date_of_sale", SqlDbType.Date).Value = string.IsNullOrEmpty(inputdata[0]) ? (object)DBNull.Value : DateTime.Parse(inputdata[0]);
-                s.Parameters.Add("@sum", SqlDbType.Decimal).Value = string.IsNullOrEmpty(inputdata[1]) ? (object)DBNull.Value : decimal.Parse(inputdata[1]);
-                s.Parameters.Add("@payment_method", SqlDbType.NVarChar, 50).Value = inputdata[2] ?? "";
-                s.Parameters.Add("@car_id", SqlDbType.Int).Value = string.IsNullOrEmpty(inputdata[3]) ? (object)DBNull.Value : int.Parse(inputdata[3]);
-                s.Parameters.Add("@client_id", SqlDbType.Int).Value = string.IsNullOrEmpty(inputdata[4]) ? (object)DBNull.Value : int.Parse(inputdata[4]);
-
-                s.ExecuteNonQuery();
-                sqlConnection.Close();
+                AddRecord("Sales", columns, inputdata);
                 Upd_sales_Table();
             }
         }
@@ -907,7 +876,6 @@ namespace WpfAppBD
             }
             Upd_sales_Table();
         }
-
         private void Add_Service()
         {
             Window1 datawindow = new Window1();
@@ -925,22 +893,15 @@ namespace WpfAppBD
 
             if (inputdata.Count == 4)
             {
-                sqlConnection.Open();
+                List<string> columns = new List<string>
+                {
+                    "date_service",
+                    "description",
+                    "price",
+                    "car_id"
+                };
 
-                SqlCommand getMaxIdCommand = new SqlCommand("SELECT ISNULL(MAX(service_id), 0) + 1 FROM Service", sqlConnection);
-                int newServiceId = (int)getMaxIdCommand.ExecuteScalar();
-
-                SqlCommand s = new SqlCommand("insert_service", sqlConnection);
-                s.CommandType = CommandType.StoredProcedure;
-
-                s.Parameters.Add("@service_id", SqlDbType.Int).Value = newServiceId;
-                s.Parameters.Add("@date_service", SqlDbType.Date).Value = string.IsNullOrEmpty(inputdata[0]) ? (object)DBNull.Value : DateTime.Parse(inputdata[0]);
-                s.Parameters.Add("@description", SqlDbType.NVarChar, 50).Value = inputdata[1] ?? "";
-                s.Parameters.Add("@price", SqlDbType.Decimal).Value = string.IsNullOrEmpty(inputdata[2]) ? (object)DBNull.Value : decimal.Parse(inputdata[2]);
-                s.Parameters.Add("@car_id", SqlDbType.Int).Value = string.IsNullOrEmpty(inputdata[3]) ? (object)DBNull.Value : int.Parse(inputdata[3]);
-
-                s.ExecuteNonQuery();
-                sqlConnection.Close();
+                AddRecord("Service", columns, inputdata);
                 Upd_Services_Table();
             }
         }
@@ -1056,5 +1017,4 @@ namespace WpfAppBD
         }
 
     }
-
 }
