@@ -17,7 +17,6 @@ using System.Windows.Shapes;
 
 namespace WpfAppBD
 {
-
     public partial class UserWindow : Window
     {     
         SqlConnection sqlConnection;
@@ -29,16 +28,22 @@ namespace WpfAppBD
             sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["Connect1"].ConnectionString);
             LoadUserCars();
         }
+        private const string LoadUserCarsQuery = @"
+            SELECT Cars.car_id, Cars.model
+            FROM Cars
+            INNER JOIN Sales ON Cars.car_id = Sales.car_id
+            WHERE Sales.client_id = @client_id";
+
+        private const string LoadServiceHistoryQuery = @"
+            SELECT [date service] AS [Дата], description AS [Опис], price AS [Ціна]
+            FROM Service
+            WHERE car_id = @car_id";
         private void LoadUserCars()
         {
             try
             {
                 sqlConnection.Open();
-                string query = @"SELECT Cars.car_id, Cars.model
-                                 FROM Cars
-                                 INNER JOIN Sales ON Cars.car_id = Sales.car_id
-                                 WHERE Sales.client_id = @client_id";
-                SqlCommand command = new SqlCommand(query, sqlConnection);
+                SqlCommand command = new SqlCommand(LoadUserCarsQuery, sqlConnection);
                 command.Parameters.AddWithValue("@client_id", userId);
 
                 SqlDataAdapter adapter = new SqlDataAdapter(command);
@@ -67,8 +72,7 @@ namespace WpfAppBD
             try
             {
                 sqlConnection.Open();
-                string query = "SELECT [date service] AS [Дата], description AS [Опис], price AS [Ціна] FROM Service WHERE car_id = @car_id";
-                SqlCommand command = new SqlCommand(query, sqlConnection);
+                SqlCommand command = new SqlCommand(LoadServiceHistoryQuery, sqlConnection);
                 command.Parameters.AddWithValue("@car_id", carId);
 
                 SqlDataAdapter adapter = new SqlDataAdapter(command);
@@ -86,7 +90,6 @@ namespace WpfAppBD
                 sqlConnection.Close();
             }
         }
-
 
         private void LoadCarsButton_Click(object sender, RoutedEventArgs e)
         {
