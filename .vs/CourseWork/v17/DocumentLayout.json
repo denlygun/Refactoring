@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\Vlad\\Downloads\\Refactoring-main\\Refactoring\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{5488C568-11CB-4786-B590-493BD1C3BD45}|WpfAppBD\\WpfAppBD.csproj|C:\\Users\\Vlad\\Downloads\\Refactoring-main\\Refactoring\\wpfappbd\\userwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5488C568-11CB-4786-B590-493BD1C3BD45}|WpfAppBD\\WpfAppBD.csproj|solutionrelative:wpfappbd\\userwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5488C568-11CB-4786-B590-493BD1C3BD45}|WpfAppBD\\WpfAppBD.csproj|c:\\users\\vlad\\downloads\\refactoring-main\\refactoring\\wpfappbd\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{5488C568-11CB-4786-B590-493BD1C3BD45}|WpfAppBD\\WpfAppBD.csproj|C:\\Users\\Vlad\\Downloads\\Refactoring-main\\Refactoring\\wpfappbd\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5488C568-11CB-4786-B590-493BD1C3BD45}|WpfAppBD\\WpfAppBD.csproj|solutionrelative:wpfappbd\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5488C568-11CB-4786-B590-493BD1C3BD45}|WpfAppBD\\WpfAppBD.csproj|C:\\Users\\Vlad\\Downloads\\Refactoring-main\\Refactoring\\wpfappbd\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{5488C568-11CB-4786-B590-493BD1C3BD45}|WpfAppBD\\WpfAppBD.csproj|solutionrelative:wpfappbd\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5488C568-11CB-4786-B590-493BD1C3BD45}|WpfAppBD\\WpfAppBD.csproj|c:\\users\\vlad\\downloads\\refactoring-main\\refactoring\\wpfappbd\\userwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5488C568-11CB-4786-B590-493BD1C3BD45}|WpfAppBD\\WpfAppBD.csproj|solutionrelative:wpfappbd\\userwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5488C568-11CB-4786-B590-493BD1C3BD45}|WpfAppBD\\WpfAppBD.csproj|C:\\Users\\Vlad\\Downloads\\Refactoring-main\\Refactoring\\wpfappbd\\authorizationapp.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -58,7 +58,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Document",
@@ -73,13 +73,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "UserWindow.xaml.cs",
               "DocumentMoniker": "C:\\Users\\Vlad\\Downloads\\Refactoring-main\\Refactoring\\WpfAppBD\\UserWindow.xaml.cs",
               "RelativeDocumentMoniker": "WpfAppBD\\UserWindow.xaml.cs",
               "ToolTip": "C:\\Users\\Vlad\\Downloads\\Refactoring-main\\Refactoring\\WpfAppBD\\UserWindow.xaml.cs",
               "RelativeToolTip": "WpfAppBD\\UserWindow.xaml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEQAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAHcAAAAAAAAAAAAIwEQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-05T20:11:26.322Z",
               "EditorCaption": ""
@@ -110,13 +110,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "MainWindow.xaml.cs",
               "DocumentMoniker": "C:\\Users\\Vlad\\Downloads\\Refactoring-main\\Refactoring\\WpfAppBD\\MainWindow.xaml.cs",
               "RelativeDocumentMoniker": "WpfAppBD\\MainWindow.xaml.cs",
               "ToolTip": "C:\\Users\\Vlad\\Downloads\\Refactoring-main\\Refactoring\\WpfAppBD\\MainWindow.xaml.cs",
               "RelativeToolTip": "WpfAppBD\\MainWindow.xaml.cs",
-              "ViewState": "AgIAAI0BAAAAAAAAAAAQwB0AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAEkDAAAAAAAAAAAswPsDAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-05T20:11:26.728Z",
               "EditorCaption": ""
@@ -147,14 +147,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "MainWindow.xaml",
               "DocumentMoniker": "C:\\Users\\Vlad\\Downloads\\Refactoring-main\\Refactoring\\WpfAppBD\\MainWindow.xaml",
               "RelativeDocumentMoniker": "WpfAppBD\\MainWindow.xaml",
               "ToolTip": "C:\\Users\\Vlad\\Downloads\\Refactoring-main\\Refactoring\\WpfAppBD\\MainWindow.xaml",
               "RelativeToolTip": "WpfAppBD\\MainWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-02-05T20:11:26.969Z"
+              "WhenOpened": "2025-02-05T20:11:26.969Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -177,8 +178,7 @@
               "ToolTip": "C:\\Users\\Vlad\\Downloads\\Refactoring-main\\Refactoring\\WpfAppBD\\UserWindow.xaml",
               "RelativeToolTip": "WpfAppBD\\UserWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-02-05T20:11:26.969Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-05T20:11:26.969Z"
             },
             {
               "$type": "Document",
